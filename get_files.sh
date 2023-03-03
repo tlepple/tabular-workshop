@@ -28,8 +28,8 @@ KAFKA_CLIENT_JAR=https://repo1.maven.org/maven2/org/apache/kafka/kafka-clients/3
 SPARK_TOKEN_JAR=https://repo.mavenlibs.com/maven/org/apache/spark/spark-token-provider-kafka-0-10_2.12/3.3.1/spark-token-provider-kafka-0-10_2.12-3.3.1.jar; echo "SPARK_TOKEN_FILE=${SPARK_TOKEN_JAR##*/}" >> ~/file_variables.output
 SPARK_SQL_KAFKA_JAR=https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/3.3.1/spark-sql-kafka-0-10_2.12-3.3.1.jar; echo "SPARK_SQL_KAFKA_FILE=${SPARK_SQL_KAFKA_JAR##*/}" >> ~/file_variables.output
 ICEBERG_SPARK_JAR=https://repo.maven.apache.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.3_2.12/1.1.0/iceberg-spark-runtime-3.3_2.12-1.1.0.jar; echo "SPARK_ICEBERG_FILE=${ICEBERG_SPARK_JAR##*/}" >> ~/file_variables.output
-URL_CONNECT_JAR=https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/2.19.19/url-connection-client-2.19.19.jar; echo "URL_CONNECT_FILE=${URL_CONNECT_JAR##*/}" >> ~/file_variables.output
-AWS_BUNDLE_JAR=https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.19.19/bundle-2.19.19.jar; echo "AWS_BUNDLE_FILE=${AWS_BUNDLE_JAR##*/}" >> ~/file_variables.output
+#URL_CONNECT_JAR=https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/2.19.19/url-connection-client-2.19.19.jar; echo "URL_CONNECT_FILE=${URL_CONNECT_JAR##*/}" >> ~/file_variables.output
+#AWS_BUNDLE_JAR=https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.19.19/bundle-2.19.19.jar; echo "AWS_BUNDLE_FILE=${AWS_BUNDLE_JAR##*/}" >> ~/file_variables.output
 
 ##########################################################################################
 # TABULAR.IO ITEMS: 
@@ -75,8 +75,8 @@ get_valid_url $KAFKA_CLIENT_JAR
 get_valid_url $SPARK_TOKEN_JAR
 get_valid_url $SPARK_SQL_KAFKA_JAR
 get_valid_url $ICEBERG_SPARK_JAR
-get_valid_url $URL_CONNECT_JAR
-get_valid_url $AWS_BUNDLE_JAR
+#get_valid_url $URL_CONNECT_JAR
+#get_valid_url $AWS_BUNDLE_JAR
 
 ##########################################################################################
 #  GET - TABULAR CLIENT ITEMS:

@@ -57,3 +57,25 @@ git clone https://github.com/tlepple/tabular-workshop.git
 ```
   *  This should complete within 10 minutes.
 ---
+
+---
+
+If you have made it this far, I want to thank you for spending your time reviewing the materials. Please give me a 'Star' at the top of this page if you found it useful.
+
+---
+---
+
+####  Extra Credit
+
+* Interested in exploring the underlying PostgreSQL Databases for `datagen`?
+[Explore Postgresql](./explore_postgresql.md)
+
+---
+---
+
+  ![](./images/drunk-cheers.gif)
+
+[Tim Lepple](www.linkedin.com/in/tim-lepple-9141452)
+
+---
+---

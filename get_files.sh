@@ -5,7 +5,7 @@
 ##########################################################################################
 echo "load utils"
 echo
-. ~/data_origination_workshop/utils.sh
+. ~/tabular-workshop/utils.sh
 
 ##########################################################################################
 ##########################################################################################
@@ -31,6 +31,10 @@ ICEBERG_SPARK_JAR=https://repo.maven.apache.org/maven2/org/apache/iceberg/iceber
 URL_CONNECT_JAR=https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/2.19.19/url-connection-client-2.19.19.jar; echo "URL_CONNECT_FILE=${URL_CONNECT_JAR##*/}" >> ~/file_variables.output
 AWS_BUNDLE_JAR=https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.19.19/bundle-2.19.19.jar; echo "AWS_BUNDLE_FILE=${AWS_BUNDLE_JAR##*/}" >> ~/file_variables.output
 
+##########################################################################################
+# TABULAR.IO ITEMS: 
+##########################################################################################
+TABULAR_CLIENT_JAR=https://tabular-repository-public.s3.amazonaws.com/releases/io/tabular/tabular-client-runtime/1.0.2/tabular-client-runtime-1.0.2.jar; echo "TABULAR_CLIENT_FILE=${TABLUAR_CLIENT_JAR##*/}" >> ~/file_variables.output
 
 ##########################################################################################
 #  KAKFA CONNECT ITEMS:
@@ -40,22 +44,10 @@ KCONNECT_JDBC_JAR=https://jdbc.postgresql.org/download/postgresql-42.5.1.jar; ec
 DBZ_CONNECT_FILE=https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/2.1.1.Final/debezium-connector-postgres-2.1.1.Final-plugin.tar.gz; echo "DEBEZIUM_CONNECT_FILE=${DBZ_CONNECT_FILE##*/}" >> ~/file_variables.output
 
 ##########################################################################################
-#  REDPANDA ITEMS:
-##########################################################################################
-REDPANDA_REPO_FILE=https://dl.redpanda.com/nzc4ZYQK3WRGd9sy/redpanda/cfg/setup/bash.deb.sh; echo "PANDA_REPO_FILE=${REDPANDA_REPO_FILE##*/}" >> ~/file_variables.output
-REDPANDA_FILE=https://github.com/redpanda-data/redpanda/releases/latest/download/rpk-linux-amd64.zip; echo "PANDA_FILE=${REDPANDA_FILE##*/}" >> ~/file_variables.output
-
-##########################################################################################
 #  POSTGRESQL ITEMS:
 ##########################################################################################
 PSQL_REPO_KEY=https://www.postgresql.org/media/keys/ACCC4CF8.asc; echo "POSTGRESQL_KEY_FILE=${PSQL_REPO_KEY##*/}" >> ~/file_variables.output
 PSQL_JDBC_JAR=https://jdbc.postgresql.org/download/postgresql-42.5.1.jar; echo "POSTGRESQL_FILE=${KCONNECT_JDBC_JAR##*/}" >> ~/file_variables.output
-
-##########################################################################################
-# MINIO ITEMS:
-##########################################################################################
-MINIO_CLI_FILE=https://dl.min.io/client/mc/release/linux-amd64/mc; echo "MINIO_FILE=${MINIO_CLI_FILE##*/}" >> ~/file_variables.output
-MINIO_PACKAGE=https://dl.min.io/server/minio/release/linux-amd64/archive/minio_20230112020616.0.0_amd64.deb; echo "MINIO_PACKAGE_FILE=${MINIO_PACKAGE##*/}" >> ~/file_variables.output
 
 ##########################################################################################
 #  DOCKER ITEMS:
@@ -87,6 +79,11 @@ get_valid_url $URL_CONNECT_JAR
 get_valid_url $AWS_BUNDLE_JAR
 
 ##########################################################################################
+#  GET - TABULAR CLIENT ITEMS:
+##########################################################################################
+get_valid_url $TABULAR_CLIENT_JAR
+
+##########################################################################################
 #  GET - KAKFA CONNECT ITEMS:
 ##########################################################################################
 get_valid_url $KCONNECT_FILE
@@ -94,22 +91,10 @@ get_valid_url $KCONNECT_JDBC_JAR
 get_valid_url $DBZ_CONNECT_FILE
 
 ##########################################################################################
-#  GET - REDPANDA ITEMS:
-##########################################################################################
-get_valid_url $REDPANDA_REPO_FILE
-get_valid_url $REDPANDA_FILE
-
-##########################################################################################
 #  GET - POSTGRESQL ITEMS:
 ##########################################################################################
 get_valid_url $PSQL_REPO_KEY
 get_valid_url $PSQL_JDBC_JAR
-
-##########################################################################################
-# GET - MINIO ITEMS:
-##########################################################################################
-get_valid_url $MINIO_CLI_FILE
-get_valid_url $MINIO_PACKAGE
 
 ##########################################################################################
 #  GET - DOCKER ITEMS:

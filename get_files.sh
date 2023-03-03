@@ -34,7 +34,7 @@ AWS_BUNDLE_JAR=https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.19
 ##########################################################################################
 # TABULAR.IO ITEMS: 
 ##########################################################################################
-TABULAR_CLIENT_JAR=https://tabular-repository-public.s3.amazonaws.com/releases/io/tabular/tabular-client-runtime/1.0.2/tabular-client-runtime-1.0.2.jar; echo "TABULAR_CLIENT_FILE=${TABLUAR_CLIENT_JAR##*/}" >> ~/file_variables.output
+TABULAR_CLIENT_JAR=https://tabular-repository-public.s3.amazonaws.com/releases/io/tabular/tabular-client-runtime/1.0.2/tabular-client-runtime-1.0.2.jar; echo "TABULAR_CLIENT_FILE=${TABULAR_CLIENT_JAR##*/}" >> ~/file_variables.output
 
 ##########################################################################################
 #  KAKFA CONNECT ITEMS:

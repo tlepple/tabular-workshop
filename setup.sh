@@ -3,7 +3,6 @@
 ##########################################################################################
 #  let's caputure install output to a log file
 ##########################################################################################
-
 LOGPATH=${HOME}/data_origination_workshop/logs
 OUTPUTLOG=${LOGPATH}/logouput_`date +%d_%m_%y_%H.%M.%S`.log
 ERRORLOG=${LOGPATH}/logerror_`date +%d_%m_%y_%H.%M.%S`.log

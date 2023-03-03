@@ -37,34 +37,12 @@ sudo apt-get update
 ##########################################################################################
 #  run the 'get_files.sh' script to validate and retrieve files first
 ##########################################################################################
-. ~/data_origination_workshop/get_files.sh
+. ~/tabular-workshop/get_files.sh
 
 ##########################################################################################
 #  need to load the file name variables we wrote to a file in the scipt 'get_files.sh'
 ##########################################################################################
 . ~/file_variables.output
-
-##########################################################################################
-#  install community edition of redpanda
-##########################################################################################
-
-echo
-echo "---------------------------------------------------------------------"
-echo "starting redpanda install ..."
-echo "---------------------------------------------------------------------"
-echo
-
-## Run the setup script to download and install the repo
-#curl -1sLf 'https://dl.redpanda.com/nzc4ZYQK3WRGd9sy/redpanda/cfg/setup/bash.deb.sh' | sudo -E bash
-sudo -E bash  ~/data_origination_workshop/downloads/$PANDA_REPO_FILE
-
-sudo apt-get update
-sudo apt-get install redpanda=22.3.12-1 -y
-
-##########################################################################################
-#   install 'rpk' - cli tools for working with red panda
-#########################################################################################
-#curl -LO https://github.com/redpanda-data/redpanda/releases/latest/download/rpk-linux-amd64.zip
 
 ##########################################################################################
 #  create a few directories
@@ -76,29 +54,12 @@ mkdir -p ~/datagen
 # add items to path for future use
 #########################################################################################
 export PATH="~/.local/bin:$PATH"
-export REDPANDA_HOME=~/.local/bin
 
 ##########################################################################################
 # add to path perm  https://help.ubuntu.com/community/EnvironmentVariables
 ##########################################################################################
 echo "" >> ~/.profile
 echo "#  set path variables here:" >> ~/.profile
-echo "export REDPANDA_HOME=~/.local/bin" >> ~/.profile
-echo "PATH=$PATH:$REDPANDA_HOME" >> ~/.profile
-
-##########################################################################################
-#  unzip rpk to --> ~/.local/bin
-##########################################################################################
-#unzip rpk-linux-amd64.zip -d ~/.local/bin/
-unzip ~/data_origination_workshop/downloads/$PANDA_FILE -d ~/.local/bin/
-
-sleep 10
-
-##########################################################################################
-#  Install the red panda console package
-##########################################################################################
-
-sudo apt-get install redpanda-console=2.1.1 -y
 
 ##########################################################################################
 #  install pip for python3
@@ -110,62 +71,16 @@ sudo apt install python3-pip -y
 ##########################################################################################
 sudo apt install -y jq
 
-##########################################################################################
-#  create the redpanda conig.yaml  #  needed to change default console port to 8888 to avoid conflict with debezium server
-##########################################################################################
-cat <<EOF > ~/redpanda-console-config.yaml
-kafka:
-  brokers: "<private_ip>:9092"
-  schemaRegistry:
-    enabled: true
-    urls: ["http://<private_ip>:8081"]
-connect:
-  enabled: true
-  clusters:
-    - name: postgres-dbz-connector
-      url: http://<private_ip>:8083
-server:
-    listenPort: 8888
-EOF
-
-sudo cp ~/data_origination_workshop/redpanda/redpanda.yaml /etc/redpanda/
 
 
 ##########################################################################################
 #  Need to update the value of '<private_ip>' in a bunch of files
 ##########################################################################################
 PRIVATE_IP=`ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p'`
-sudo sed -e "s,<private_ip>,$PRIVATE_IP,g" -i ~/redpanda-console-config.yaml
-sudo sed -e "s,<private_ip>,$PRIVATE_IP,g" -i /etc/redpanda/redpanda.yaml
 
-sed -e "s,<private_ip>,$PRIVATE_IP,g" -i ~/data_origination_workshop/datagen/comsume_topic_dgCustomer.py
-sed -e "s,<private_ip>,$PRIVATE_IP,g" -i ~/data_origination_workshop/datagen/consume_panda_2_iceberg_customer.py
-sed -e "s,<private_ip>,$PRIVATE_IP,g" -i ~/data_origination_workshop/datagen/consume_stream_customer_2_console.py
-sed -e "s,<private_ip>,$PRIVATE_IP,g" -i ~/data_origination_workshop/datagen/consume_stream_txn_2_console.py
-sed -e "s,<private_ip>,$PRIVATE_IP,g" -i ~/data_origination_workshop/datagen/pg_upsert_dg.py
-sed -e "s,<private_ip>,$PRIVATE_IP,g" -i ~/data_origination_workshop/datagen/redpanda_dg.py
-sed -e "s,<private_ip>,$PRIVATE_IP,g" -i ~/data_origination_workshop/datagen/spark_from_dbz_customer_2_iceberg.py
+sed -e "s,<private_ip>,$PRIVATE_IP,g" -i ~/tabular-workshop/datagen/pg_upsert_dg.py
 
-##########################################################################################
-#   move this file to proper directory
-##########################################################################################
-sudo mv ~/redpanda-console-config.yaml /etc/redpanda/redpanda-console-config.yaml
-sudo chown redpanda:redpanda -R /etc/redpanda
 
-##########################################################################################
-#  start redpanda & the console:
-##########################################################################################
-sudo systemctl enable redpanda
-sudo systemctl enable redpanda-console
-
-sudo systemctl start redpanda
-sudo systemctl start redpanda-console
-
-echo
-echo "---------------------------------------------------------------------"
-echo "redpanda setup completed..."
-echo "---------------------------------------------------------------------"
-echo
 ##########################################################################################
 #  install a specific version of postgresql (version 14)
 ##########################################################################################
@@ -226,7 +141,6 @@ cat <<EOF > pg_hba.conf
   # TYPE  DATABASE        USER            ADDRESS                 METHOD
   local   all             all                                     peer
   host    datagen         datagen        0.0.0.0/0                md5
-  host    icecatalog      icecatalog     0.0.0.0/0                md5
 EOF
 
 ##########################################################################################
@@ -249,18 +163,17 @@ sudo apt install openjdk-11-jdk -y
 ##########################################################################################
 ## Run the sql file to create the schema for all DB’s
 ##########################################################################################
-sudo -u postgres psql < ~/data_origination_workshop/db_ddl/create_user_datagen.sql
-sudo -u datagen psql < ~/data_origination_workshop/db_ddl/customer_ddl.sql
-sudo -u datagen psql < ~/data_origination_workshop/db_ddl/customer_function_ddl.sql
-sudo -u datagen psql < ~/data_origination_workshop/db_ddl/grants4dbz.sql
-sudo -u postgres psql < ~/data_origination_workshop/db_ddl/create_ddl_icecatalog.sql
-#sudo -u postgres psql < ~/data_origination_workshop/db_ddl/hive_metastore_ddl.sql
+sudo -u postgres psql < ~/tabular-workshop/db_ddl/create_user_datagen.sql
+sudo -u datagen psql < ~/tabular-workshop/db_ddl/customer_ddl.sql
+sudo -u datagen psql < ~/tabular-workshop/db_ddl/customer_function_ddl.sql
+sudo -u datagen psql < ~/tabular-workshop/db_ddl/grants4dbz.sql
 
 echo
 echo "---------------------------------------------------------------------"
 echo "postgresql install completed..."
 echo "---------------------------------------------------------------------"
 echo
+
 ##########################################################################################
 #  
 ##########################################################################################
@@ -307,11 +220,7 @@ mkdir -p ~/kafka_connect/plugins
 #  get the public key
 sudo wget https://dlcdn.apache.org/kafka/KEYS
 
-# get the file:
-#wget https://dlcdn.apache.org/kafka/3.3.2/kafka_2.13-3.3.2.tgz -P ~/kafka_connect
-
 #untar the file:
-#tar -xzf ~/kafka_connect/kafka_2.13-3.3.2.tgz --directory ~/kafka_connect/
 tar -xzf  ~/data_origination_workshop/downloads/$KAFKA_CONNECT_FILE --directory ~/kafka_connect/
 
 # remove the tar file:
@@ -326,13 +235,9 @@ cp ~/data_origination_workshop/kafka_connect/*.properties ~/kafka_connect/config
 sed -e "s,<private_ip>,$PRIVATE_IP,g" -i ~/kafka_connect/configuration/connect.properties
 
 ##########################################################################################
-#  debezium download
+#  copy debezium items
 ##########################################################################################
-#wget https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/2.1.1.Final/debezium-connector-postgres-2.1.1.Final-plugin.tar.gz -P ~/kafka_connect
-
 # untar this file:
-#tar -xzf ~/kafka_connect/debezium-connector-postgres-2.1.1.Final-plugin.tar.gz --directory ~/kafka_connect/plugins/
-
 tar -xzf ~/data_origination_workshop/downloads/$DEBEZIUM_CONNECT_FILE --directory ~/kafka_connect/plugins/
 
 # remove tar file
@@ -345,11 +250,7 @@ tar -xzf ~/data_origination_workshop/downloads/$DEBEZIUM_CONNECT_FILE --director
 ##########################################################################################
 #  copy jars to the kafka libs folder
 ##########################################################################################
-#cp ~/kafka_connect/plugins/debezium-connector-postgres/*.jar ~/kafka_connect/kafka_2.13-3.3.2/libs/
-
 cp ~/data_origination_workshop/downloads/$KCONNECT_JDBC_FILE ~/kafka_connect/kafka_2.13-3.3.2/libs/
-
-
 
 echo
 echo "---------------------------------------------------------------------"
@@ -370,23 +271,16 @@ echo
 sudo apt install maven -y
 
 ##########################################################################################
-#  download apache spark standalone
+#  copy apache spark standalone
 ##########################################################################################
-#wget https://dlcdn.apache.org/spark/spark-3.3.1/spark-3.3.1-bin-hadoop3.tgz
-
-#tar -xzvf spark-3.3.1-bin-hadoop3.tgz
 tar -xzvf ~/data_origination_workshop/downloads/$SPARK_STANDALONE_FILE --directory ~
-
-#sudo mv spark-3.3.1-bin-hadoop3/ /opt/spark
 
 SPARK_DIR_NAME=$(basename $SPARK_STANDALONE_FILE .tgz)
 
 sudo mv ~/$SPARK_DIR_NAME /opt/spark
-#mv spark-3.3.1-bin-hadoop3/ /opt/spark
 
 #  change ownership
 sudo chown -R datagen:datagen /opt/spark
-
 
 ##########################################################################################
 #   create a directory for spark events, logs and some json files to be used 
@@ -409,48 +303,20 @@ sudo apt install awscli -y
 sudo apt install -y mlocate
 
 ##########################################################################################
-#  download the jdbc jar file for postgres:  
+#  copy the jdbc jar file for postgres:  
 ##########################################################################################
-#wget https://jdbc.postgresql.org/download/postgresql-42.5.1.jar
-
-#sudo mv postgresql-42.5.1.jar /opt/spark/jars/
-#mv postgresql-42.5.1.jar /opt/spark/jars/
-
 cp ~/data_origination_workshop/downloads/$POSTGRESQL_FILE /opt/spark/jars/
 
-
-
 ##########################################################################################
-# download some aws jars:
+# copy some aws jars:
 ##########################################################################################
-#wget https://repo1.maven.org/maven2/software/amazon/awssdk/bundle/2.19.19/bundle-2.19.19.jar
-
-#sudo mv bundle-2.19.19.jar /opt/spark/jars/
-#mv bundle-2.19.19.jar /opt/spark/jars/
-
 cp ~/data_origination_workshop/downloads/$AWS_BUNDLE_FILE /opt/spark/jars/
 
-
-#wget https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/2.19.19/url-connection-client-2.19.19.jar
-#mv url-connection-client-2.19.19.jar /opt/spark/jars/
 cp ~/data_origination_workshop/downloads/$URL_CONNECT_FILE /opt/spark/jars/
 
 ##########################################################################################
-#  download iceberg spark runtime 
+#  copy iceberg spark runtime items
 ##########################################################################################
-#wget https://repo.maven.apache.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.3_2.12/1.1.0/iceberg-spark-runtime-3.3_2.12-1.1.0.jar
-#wget https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/3.3.1/spark-sql-kafka-0-10_2.12-3.3.1.jar
-#wget https://repo.mavenlibs.com/maven/org/apache/spark/spark-token-provider-kafka-0-10_2.12/3.3.1/spark-token-provider-kafka-0-10_2.12-3.3.1.jar
-#wget https://repo1.maven.org/maven2/org/apache/kafka/kafka-clients/3.3.1/kafka-clients-3.3.1.jar
-#wget https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/2.11.1/commons-pool2-2.11.1.jar
-
-#mv ~/iceberg-spark-runtime-3.3_2.12-1.1.0.jar /opt/spark/jars/
-#mv ~/spark-sql-kafka-0-10_2.12-3.3.1.jar /opt/spark/jars/
-#mv ~/spark-token-provider-kafka-0-10_2.12-3.3.1.jar /opt/spark/jars/
-#mv ~/kafka-clients-3.3.1.jar /opt/spark/jars/
-#mv ~/commons-pool2-2.11.1.jar /opt/spark/jars/
-
-
 cp ~/data_origination_workshop/downloads/$SPARK_ICEBERG_FILE /opt/spark/jars/
 cp ~/data_origination_workshop/downloads/$SPARK_SQL_KAFKA_FILE /opt/spark/jars/
 cp ~/data_origination_workshop/downloads/$SPARK_TOKEN_FILE /opt/spark/jars/
@@ -462,145 +328,19 @@ echo "---------------------------------------------------------------------"
 echo "iceberg & spark items completed..."
 echo "---------------------------------------------------------------------"
 echo
-##########################################################################################
-#  download minio debian package
-##########################################################################################
-
-echo
-echo "---------------------------------------------------------------------"
-echo "install minio..."
-echo "---------------------------------------------------------------------"
-echo
-#wget https://dl.min.io/server/minio/release/linux-amd64/archive/minio_20230112020616.0.0_amd64.deb -O minio.deb
-
-##########################################################################################
-#   install minio
-##########################################################################################
-#sudo dpkg -i minio.deb
-sudo dpkg -i ~/data_origination_workshop/downloads/$MINIO_PACKAGE_FILE
-
-##########################################################################################
-#  create directory for minio data to be stored
-##########################################################################################
-sudo mkdir -p /opt/app/minio/data
-
-sudo groupadd -r minio-user
-sudo useradd -M -r -g minio-user minio-user
-
-##########################################################################################
-# grant permission to this directory to minio-user
-##########################################################################################
-
-sudo chown -R minio-user:minio-user /opt/app/minio/
-
-##########################################################################################
-#  create an enviroment variable file for minio
-##########################################################################################
-
-cat <<EOF > ~/minio.properties
-# MINIO_ROOT_USER and MINIO_ROOT_PASSWORD sets the root account for the MinIO server.
-# This user has unrestricted permissions to perform S3 and administrative API operations on any resource in the deployment.
-# Omit to use the default values 'minioadmin:minioadmin'.
-# MinIO recommends setting non-default values as a best practice, regardless of environment
-#MINIO_ROOT_USER=myminioadmin
-#MINIO_ROOT_PASSWORD=minio-secret-key-change-me
-MINIO_ROOT_USER=minioroot
-MINIO_ROOT_PASSWORD=supersecret1
-# MINIO_VOLUMES sets the storage volume or path to use for the MinIO server.
-#MINIO_VOLUMES="/mnt/data"
-MINIO_VOLUMES="/opt/app/minio/data"
-# MINIO_SERVER_URL sets the hostname of the local machine for use with the MinIO Server
-# MinIO assumes your network control plane can correctly resolve this hostname to the local machine
-# Uncomment the following line and replace the value with the correct hostname for the local machine.
-#MINIO_SERVER_URL="http://minio.example.net"
-EOF
-
-##########################################################################################
-#   move this file to proper directory
-##########################################################################################
-sudo mv ~/minio.properties /etc/default/minio
-
-sudo chown root:root /etc/default/minio
 
 
-##########################################################################################
-#  start the minio server:
-##########################################################################################
-sudo systemctl start minio.service
-
-sleep 10
-
-##########################################################################################
-#  install the 'MinIO Client' on this server 
-##########################################################################################
-#curl https://dl.min.io/client/mc/release/linux-amd64/mc \
-#  --create-dirs \
-#  -o $HOME/minio-binaries/mc
-
-mkdir -p ~/minio-binaries
-cp ~/data_origination_workshop/downloads/$MINIO_FILE ~/minio-binaries
-
-chmod +x $HOME/minio-binaries/mc
-export PATH=$PATH:$HOME/minio-binaries/
-
-
-##########################################################################################
-#  create an alias on this host for the minio cli (using the minio root credentials)
-##########################################################################################
-mc alias set local http://127.0.0.1:9000 minioroot supersecret1
-
-##########################################################################################
-#  lets create a user for iceberg metadata & tables using the minio cli and the  alias we just set
-##########################################################################################
-mc admin user add local icebergadmin supersecret1!
-
-##########################################################################################
-#  need to add the 'readwrite' minio policy to this new user: (these are just like aws policies)
-##########################################################################################
-mc admin policy set local readwrite user=icebergadmin
-
-##########################################################################################
-#  create a new alias for this admin user:
-##########################################################################################
-mc alias set icebergadmin http://127.0.0.1:9000 icebergadmin supersecret1!
-
-##########################################################################################
-#  create new 'Access Keys' for this user and redirect output to a file for automation later
-##########################################################################################
-mc admin user svcacct add icebergadmin icebergadmin >> ~/minio-output.properties
-
-##########################################################################################
-#  create a bucket as user icebergadmin for our iceberg data
-##########################################################################################
-mc mb icebergadmin/iceberg-data icebergadmin
-
-##########################################################################################
-#  let's reformat the output of access keys from an earlier step
-##########################################################################################
-sed -i "s/Access Key: /access_key=/g" ~/minio-output.properties
-sed -i "s/Secret Key: /secret_key=/g" ~/minio-output.properties
-
-##########################################################################################
-#  let's  read the update file into memory to use these values to set aws configure
-##########################################################################################
-. ~/minio-output.properties
-
-echo
-echo "---------------------------------------------------------------------"
-echo "minio install completed..."
-echo "---------------------------------------------------------------------"
-echo
 ##########################################################################################
 #  let's set up aws configure files from code (this is using the minio credentials) - The default region doesn't get used in minio
 ##########################################################################################
-aws configure set aws_access_key_id $access_key
-aws configure set aws_secret_access_key $secret_key
-aws configure set default.region us-east-1
+#aws configure set aws_access_key_id $access_key
+#aws configure set aws_secret_access_key $secret_key
+#aws configure set default.region us-east-1
 
 ##########################################################################################
 #  let's test that the aws cli can list our buckets in minio:
 ##########################################################################################
-aws --endpoint-url http://127.0.0.1:9000 s3 ls
+#aws --endpoint-url http://127.0.0.1:9000 s3 ls
 
 echo
 
@@ -753,17 +493,16 @@ mkdir -p ~/debezium-server-iceberg/data
 #########################################################################################
 # configure our dbz source-sink.properties file
 #########################################################################################
-#sudo cp ~/data_origination_workshop/dbz_server/application.properties ~/appdist/debezium-server-iceberg/conf/
 cp ~/data_origination_workshop/dbz_server/application.properties ~/appdist/debezium-server-iceberg/conf/
 
 ##########################################################################################
 #  let's update the properties files to use our minio keys.
 ##########################################################################################
 
-. ~/minio-output.properties
+#. ~/minio-output.properties
 
-sed -e "s,<your S3 access-key>,$access_key,g" -i ~/appdist/debezium-server-iceberg/conf/application.properties
-sed -e "s,<your s3 secret-key>,$secret_key,g" -i ~/appdist/debezium-server-iceberg/conf/application.properties
+#sed -e "s,<your S3 access-key>,$access_key,g" -i ~/appdist/debezium-server-iceberg/conf/application.properties
+#sed -e "s,<your s3 secret-key>,$secret_key,g" -i ~/appdist/debezium-server-iceberg/conf/application.properties
 
 # change ownership
 #sudo chown datagen:datagen -R /home/datagen/appdist
@@ -775,7 +514,7 @@ rm /home/datagen/appdist/debezium-server-iceberg/conf/application.properties.exa
 rm /home/datagen/debezium-server-iceberg-dist-*-SNAPSHOT.zip
 
 # we need a directory to store offset info:
-mkdir ~//appdist/debezium-server-iceberg/data
+mkdir ~/appdist/debezium-server-iceberg/data
 echo
 echo "---------------------------------------------------------------------"
 echo "Debezium Server setup complete..."

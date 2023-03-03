@@ -300,6 +300,17 @@ echo "---------------------------------------------------------------------"
 echo
 
 ##########################################################################################
+#  copy tablular items
+##########################################################################################
+TABULAR_CLIENT_FILE
+cp ~/tabular-workshop/downloads/$TABULAR_CLIENT_FILE /opt/spark/jars/
+
+echo
+echo "---------------------------------------------------------------------"
+echo "tabular items completed..."
+echo "---------------------------------------------------------------------"
+echo
+##########################################################################################
 #  let's set up aws configure files from code (this is using the minio credentials) - The default region doesn't get used in minio
 ##########################################################################################
 #aws configure set aws_access_key_id $access_key

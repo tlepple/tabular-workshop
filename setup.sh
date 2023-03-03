@@ -3,7 +3,7 @@
 ##########################################################################################
 #  let's caputure install output to a log file
 ##########################################################################################
-LOGPATH=${HOME}/data_origination_workshop/logs
+LOGPATH=${HOME}/tabular-workshop/logs
 OUTPUTLOG=${LOGPATH}/logouput_`date +%d_%m_%y_%H.%M.%S`.log
 ERRORLOG=${LOGPATH}/logerror_`date +%d_%m_%y_%H.%M.%S`.log
 mkdir -p "$(dirname "$OUTPUTLOG")"
@@ -82,7 +82,7 @@ apt policy postgresql
 ##########################################################################################
 #  install the pgp key for this version of postgresql:
 ##########################################################################################
-sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg ~/data_origination_workshop/downloads/$POSTGRESQL_KEY_FILE 
+sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg ~/tabular-workshop/downloads/$POSTGRESQL_KEY_FILE 
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
 sudo apt update
@@ -166,7 +166,7 @@ echo
 ##########################################################################################
 #   copy these files to the os user 'datagen' and set owner and permissions
 ##########################################################################################
-mv ~/data_origination_workshop/datagen/* /home/datagen/datagen/
+mv ~/tabular-workshop/datagen/* /home/datagen/datagen/
 chown datagen:datagen -R /home/datagen/
 
 ##########################################################################################
@@ -195,13 +195,13 @@ mkdir -p ~/kafka_connect/plugins
 sudo wget https://dlcdn.apache.org/kafka/KEYS
 
 #untar the file:
-tar -xzf  ~/data_origination_workshop/downloads/$KAFKA_CONNECT_FILE --directory ~/kafka_connect/
+tar -xzf  ~/tabular-workshop/downloads/$KAFKA_CONNECT_FILE --directory ~/kafka_connect/
 
 # remove the tar file:
 #rm ~/kafka_connect/kafka_2.13-3.3.2.tgz
 
 # copy the properties files:
-cp ~/data_origination_workshop/kafka_connect/*.properties ~/kafka_connect/configuration/
+cp ~/tabular-workshop/kafka_connect/*.properties ~/kafka_connect/configuration/
 
 # update the private IP address in this config file:
 
@@ -212,7 +212,7 @@ sed -e "s,<private_ip>,$PRIVATE_IP,g" -i ~/kafka_connect/configuration/connect.p
 #  copy debezium items
 ##########################################################################################
 # untar this file:
-tar -xzf ~/data_origination_workshop/downloads/$DEBEZIUM_CONNECT_FILE --directory ~/kafka_connect/plugins/
+tar -xzf ~/tabular-workshop/downloads/$DEBEZIUM_CONNECT_FILE --directory ~/kafka_connect/plugins/
 
 # remove tar file
 #rm ~/kafka_connect/debezium-connector-postgres-2.1.1.Final-plugin.tar.gz
@@ -224,7 +224,7 @@ tar -xzf ~/data_origination_workshop/downloads/$DEBEZIUM_CONNECT_FILE --director
 ##########################################################################################
 #  copy jars to the kafka libs folder
 ##########################################################################################
-cp ~/data_origination_workshop/downloads/$KCONNECT_JDBC_FILE ~/kafka_connect/kafka_2.13-3.3.2/libs/
+cp ~/tabular-workshop/downloads/$KCONNECT_JDBC_FILE ~/kafka_connect/kafka_2.13-3.3.2/libs/
 
 echo
 echo "---------------------------------------------------------------------"
@@ -247,7 +247,7 @@ sudo apt install maven -y
 ##########################################################################################
 #  copy apache spark standalone
 ##########################################################################################
-tar -xzvf ~/data_origination_workshop/downloads/$SPARK_STANDALONE_FILE --directory ~
+tar -xzvf ~/tabular-workshop/downloads/$SPARK_STANDALONE_FILE --directory ~
 SPARK_DIR_NAME=$(basename $SPARK_STANDALONE_FILE .tgz)
 sudo mv ~/$SPARK_DIR_NAME /opt/spark
 
@@ -277,22 +277,22 @@ sudo apt install -y mlocate
 ##########################################################################################
 #  copy the jdbc jar file for postgres:  
 ##########################################################################################
-cp ~/data_origination_workshop/downloads/$POSTGRESQL_FILE /opt/spark/jars/
+cp ~/tabular-workshop/downloads/$POSTGRESQL_FILE /opt/spark/jars/
 
 ##########################################################################################
 # copy some aws jars:
 ##########################################################################################
-cp ~/data_origination_workshop/downloads/$AWS_BUNDLE_FILE /opt/spark/jars/
-cp ~/data_origination_workshop/downloads/$URL_CONNECT_FILE /opt/spark/jars/
+cp ~/tabular-workshop/downloads/$AWS_BUNDLE_FILE /opt/spark/jars/
+cp ~/tabular-workshop/downloads/$URL_CONNECT_FILE /opt/spark/jars/
 
 ##########################################################################################
 #  copy iceberg spark runtime items
 ##########################################################################################
-cp ~/data_origination_workshop/downloads/$SPARK_ICEBERG_FILE /opt/spark/jars/
-cp ~/data_origination_workshop/downloads/$SPARK_SQL_KAFKA_FILE /opt/spark/jars/
-cp ~/data_origination_workshop/downloads/$SPARK_TOKEN_FILE /opt/spark/jars/
-cp ~/data_origination_workshop/downloads/$KAFKA_CLIENT_FILE /opt/spark/jars/
-cp ~/data_origination_workshop/downloads/$COMMONS_POOL2_FILE /opt/spark/jars/
+cp ~/tabular-workshop/downloads/$SPARK_ICEBERG_FILE /opt/spark/jars/
+cp ~/tabular-workshop/downloads/$SPARK_SQL_KAFKA_FILE /opt/spark/jars/
+cp ~/tabular-workshop/downloads/$SPARK_TOKEN_FILE /opt/spark/jars/
+cp ~/tabular-workshop/downloads/$KAFKA_CLIENT_FILE /opt/spark/jars/
+cp ~/tabular-workshop/downloads/$COMMONS_POOL2_FILE /opt/spark/jars/
 echo
 echo "---------------------------------------------------------------------"
 echo "iceberg & spark items completed..."
@@ -407,7 +407,7 @@ echo "export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin:$JAVA_HOME/bin:$HOME/mi
 #########################################################################################
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
 
-sudo apt-key add ~/data_origination_workshop/downloads/$DOCKER_REPO_KEY_FILE
+sudo apt-key add ~/tabular-workshop/downloads/$DOCKER_REPO_KEY_FILE
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
 apt-cache policy docker-ce
 sudo apt install -y docker-ce
@@ -451,7 +451,7 @@ mkdir -p ~/debezium-server-iceberg/data
 #########################################################################################
 # configure our dbz source-sink.properties file
 #########################################################################################
-cp ~/data_origination_workshop/dbz_server/application.properties ~/appdist/debezium-server-iceberg/conf/
+cp ~/tabular-workshop/dbz_server/application.properties ~/appdist/debezium-server-iceberg/conf/
 
 ##########################################################################################
 #  let's update the properties files to use our minio keys.
@@ -507,7 +507,7 @@ echo
 #########################################################################################
 #  copy spark-sql and pyspark items
 #########################################################################################
-cp ~/data_origination_workshop/spark_items/* /opt/spark/sql
+cp ~/tabular-workshop/spark_items/* /opt/spark/sql
 
 #########################################################################################
 #  Install apache web server to host adminer

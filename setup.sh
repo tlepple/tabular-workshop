@@ -83,17 +83,11 @@ apt policy postgresql
 ##########################################################################################
 #  install the pgp key for this version of postgresql:
 ##########################################################################################
-#curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg
-
 sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg ~/data_origination_workshop/downloads/$POSTGRESQL_KEY_FILE 
-
-
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
 sudo apt update
-
 sudo apt install postgresql-14 -y
-
 sudo systemctl enable postgresql
 
 ##########################################################################################
@@ -155,7 +149,6 @@ sudo -u postgres psql < ~/tabular-workshop/db_ddl/create_user_datagen.sql
 sudo -u datagen psql < ~/tabular-workshop/db_ddl/customer_ddl.sql
 sudo -u datagen psql < ~/tabular-workshop/db_ddl/customer_function_ddl.sql
 sudo -u datagen psql < ~/tabular-workshop/db_ddl/grants4dbz.sql
-
 echo
 echo "---------------------------------------------------------------------"
 echo "postgresql install completed..."
@@ -165,20 +158,15 @@ echo
 ##########################################################################################
 #  
 ##########################################################################################
-
 echo
 echo "---------------------------------------------------------------------"
 echo "setup data generator items..."
 echo "---------------------------------------------------------------------"
 echo
 
-
 ##########################################################################################
 #   copy these files to the os user 'datagen' and set owner and permissions
 ##########################################################################################
-#sudo mv ~/data_origination_workshop/datagen/* /home/datagen/datagen/
-#sudo chown datagen:datagen -R /home/datagen/
-
 mv ~/data_origination_workshop/datagen/* /home/datagen/datagen/
 chown datagen:datagen -R /home/datagen/
 
@@ -186,7 +174,6 @@ chown datagen:datagen -R /home/datagen/
 #  pip install some items
 ##########################################################################################
 sudo pip install kafka-python uuid simplejson faker psycopg2-binary
-
 echo
 echo "---------------------------------------------------------------------"
 echo "data generator setup completed..."
@@ -262,9 +249,7 @@ sudo apt install maven -y
 #  copy apache spark standalone
 ##########################################################################################
 tar -xzvf ~/data_origination_workshop/downloads/$SPARK_STANDALONE_FILE --directory ~
-
 SPARK_DIR_NAME=$(basename $SPARK_STANDALONE_FILE .tgz)
-
 sudo mv ~/$SPARK_DIR_NAME /opt/spark
 
 #  change ownership
@@ -299,7 +284,6 @@ cp ~/data_origination_workshop/downloads/$POSTGRESQL_FILE /opt/spark/jars/
 # copy some aws jars:
 ##########################################################################################
 cp ~/data_origination_workshop/downloads/$AWS_BUNDLE_FILE /opt/spark/jars/
-
 cp ~/data_origination_workshop/downloads/$URL_CONNECT_FILE /opt/spark/jars/
 
 ##########################################################################################
@@ -310,13 +294,11 @@ cp ~/data_origination_workshop/downloads/$SPARK_SQL_KAFKA_FILE /opt/spark/jars/
 cp ~/data_origination_workshop/downloads/$SPARK_TOKEN_FILE /opt/spark/jars/
 cp ~/data_origination_workshop/downloads/$KAFKA_CLIENT_FILE /opt/spark/jars/
 cp ~/data_origination_workshop/downloads/$COMMONS_POOL2_FILE /opt/spark/jars/
-
 echo
 echo "---------------------------------------------------------------------"
 echo "iceberg & spark items completed..."
 echo "---------------------------------------------------------------------"
 echo
-
 
 ##########################################################################################
 #  let's set up aws configure files from code (this is using the minio credentials) - The default region doesn't get used in minio
@@ -331,8 +313,6 @@ echo
 #aws --endpoint-url http://127.0.0.1:9000 s3 ls
 
 echo
-
-
 ##########################################################################################
 #  Create a json records file of sample customer data to be used in a lab
 ##########################################################################################
@@ -423,16 +403,12 @@ echo "export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin:$JAVA_HOME/bin:$HOME/mi
 # let's make this visible
 . ~/.profile
 
-
 #########################################################################################
 # install docker ce (needed for dbz server build with maven)
 #########################################################################################
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
 
-#curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-
 sudo apt-key add ~/data_origination_workshop/downloads/$DOCKER_REPO_KEY_FILE
-
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
 apt-cache policy docker-ce
 sudo apt install -y docker-ce
@@ -451,14 +427,12 @@ cd ~
 git clone https://github.com/memiiso/debezium-server-iceberg.git
 cd debezium-server-iceberg
 
-
 echo
 echo "---------------------------------------------------------------------"
 echo "starting maven build of Debezium Server..."
 echo "---------------------------------------------------------------------"
 echo
 mvn -Passembly -Dmaven.test.skip package
-
 
 echo
 echo "---------------------------------------------------------------------"
@@ -472,11 +446,8 @@ echo "configure Debezium Server items..."
 echo "---------------------------------------------------------------------"
 echo
 cp ~/debezium-server-iceberg/debezium-server-iceberg-dist/target/debezium-server-iceberg-dist-0.3.0-SNAPSHOT.zip ~
-
 unzip ~/debezium-server-iceberg-dist*.zip -d ~/appdist
-
 mkdir -p ~/debezium-server-iceberg/data
-
 
 #########################################################################################
 # configure our dbz source-sink.properties file
@@ -486,7 +457,6 @@ cp ~/data_origination_workshop/dbz_server/application.properties ~/appdist/debez
 ##########################################################################################
 #  let's update the properties files to use our minio keys.
 ##########################################################################################
-
 #. ~/minio-output.properties
 
 #sed -e "s,<your S3 access-key>,$access_key,g" -i ~/appdist/debezium-server-iceberg/conf/application.properties
@@ -555,7 +525,6 @@ sudo apt install php php-curl libapache2-mod-php php-cli php-mysql php-gd php-fp
 #    Install adminer sql web browser client
 ##########################################################################################
 sudo apt install adminer -y
-
 
 ##########################################################################################
 #  enable the apache configuration for adminder

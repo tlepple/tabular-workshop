@@ -17,10 +17,6 @@ echo
 exec 1> >( tee -a "$OUTPUTLOG" )
 exec 2> >( tee -a "$ERRORLOG" )
 
-# Redirect all stdout and stderr to respective files using 'script'
-#exec 1> >( script --append  "$OUTPUTLOG" )
-#exec 2> >( script --append  "$ERRORLOG" )
-
 #  start a timer:
 OVERALL_START="$(date +%s)"
 
@@ -601,3 +597,5 @@ sleep 5
 OVERALL_END="$(date +%s)"
 echo
 echo "The overall code took: $[ (${OVERALL_END} - ${OVERALL_START}) / 60 ] minutes to run"
+
+exit

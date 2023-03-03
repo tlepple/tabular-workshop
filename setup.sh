@@ -1,11 +1,8 @@
 #!/bin/bash
 
-
 ##########################################################################################
 #  let's caputure install output to a log file
 ##########################################################################################
-# exec 1> >(tee -a "/tmp/${0##*/}.log")
-#exec 1 | tee -a /tmp/data_orig_install.log
 
 LOGPATH=${HOME}/data_origination_workshop/logs
 OUTPUTLOG=${LOGPATH}/logouput_`date +%d_%m_%y_%H.%M.%S`.log
@@ -20,12 +17,10 @@ exec 2> >( tee -a "$ERRORLOG" )
 #  start a timer:
 OVERALL_START="$(date +%s)"
 
-
 ##########################################################################################
 #  install some OS utilities
 ##########################################################################################
 sudo apt-get install wget curl apt-transport-https unzip chrony -y
-
 sudo apt install cowsay -y
 sudo apt install figlet -y
 sudo apt-get update
@@ -67,15 +62,12 @@ sudo apt install python3-pip -y
 ##########################################################################################
 sudo apt install -y jq
 
-
-
 ##########################################################################################
 #  Need to update the value of '<private_ip>' in a bunch of files
 ##########################################################################################
 PRIVATE_IP=`ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p'`
 
 sed -e "s,<private_ip>,$PRIVATE_IP,g" -i ~/tabular-workshop/datagen/pg_upsert_dg.py
-
 
 ##########################################################################################
 #  install a specific version of postgresql (version 14)

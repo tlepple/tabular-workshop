@@ -6,8 +6,8 @@
 
  * I built this on a new install of Ubuntu Server
  * Version: 20.04.5 LTS 
- * Instance Specs: (min 4 core w/ 16 GB ram & 30 GB of disk) -- add more RAM if you have it to spare.
- * If you are going to test this in `AWS`, it ran smoothly for me using AMI: `ami-05c240bc171674508` in region: `us-east-1` with a instance type of: `t3.xlarge`
+ * Instance Specs: (min 2 core w/ 8 GB ram & 20 GB of disk) -- add more RAM if you have it to spare.
+ * If you are going to test this in `AWS`, it ran smoothly for me using AMI: `ami-05c240bc171674508` in region: `us-east-1` with a instance type of: `t3.large`
 
 ---
 ### Create OS User `Datagen` 

@@ -20,8 +20,8 @@ OVERALL_START="$(date +%s)"
 #  install some OS utilities
 ##########################################################################################
 sudo apt-get install wget curl apt-transport-https unzip chrony -y
-sudo apt install cowsay -y
-sudo apt install figlet -y
+sudo apt-get install cowsay -y
+sudo apt-get install figlet -y
 sudo apt-get update
 
 ##########################################################################################
@@ -37,7 +37,7 @@ sudo apt-get update
 ##########################################################################################
 #  load the Tabular enviroment properties from '.env.properties' file
 ##########################################################################################
-. ~/.env.properties
+. ~/tabular_workshop/.env.properties
 
 ##########################################################################################
 #  create a few directories
@@ -59,7 +59,7 @@ echo "#  set path variables here:" >> ~/.profile
 ##########################################################################################
 #  install pip for python3
 ##########################################################################################
-sudo apt install python3-pip -y
+sudo apt-get install python3-pip -y
 
 ##########################################################################################
 #  install jq
@@ -90,8 +90,8 @@ apt policy postgresql
 sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg ~/tabular-workshop/downloads/$POSTGRESQL_KEY_FILE 
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
-sudo apt update
-sudo apt install postgresql-14 -y
+sudo apt-get update
+sudo apt-get install postgresql-14 -y
 sudo systemctl enable postgresql
 
 ##########################################################################################
@@ -144,7 +144,7 @@ sudo systemctl restart postgresql
 ##########################################################################################
 #  install Java 11
 ##########################################################################################
-sudo apt install openjdk-11-jdk -y
+sudo apt-get install openjdk-11-jdk -y
 
 ##########################################################################################
 ## Run the sql file to create the schema for all DB’s
@@ -247,7 +247,7 @@ echo
 ##########################################################################################
 #  Install maven 
 ##########################################################################################
-sudo apt install maven -y
+sudo apt-get install maven -y
 
 ##########################################################################################
 #  copy apache spark standalone
@@ -272,12 +272,12 @@ mkdir -p /opt/spark/sql
 ##########################################################################################
 #  install aws cli
 ##########################################################################################
-sudo apt install awscli -y
+sudo apt-get install awscli -y
 
 ##########################################################################################
 #  install mlocate
 ##########################################################################################
-sudo apt install -y mlocate
+sudo apt-get install -y mlocate
 
 ##########################################################################################
 #  copy the jdbc jar file for postgres:  
@@ -419,7 +419,7 @@ echo "export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin:$JAVA_HOME/bin" >> ~/.p
 #########################################################################################
 # install docker ce (needed for dbz server build with maven)
 #########################################################################################
-sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
 
 sudo apt-key add ~/tabular-workshop/downloads/$DOCKER_REPO_KEY_FILE
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
@@ -515,18 +515,18 @@ cp ~/tabular-workshop/spark_items/* /opt/spark/sql
 #########################################################################################
 #  Install apache web server to host adminer
 #########################################################################################
-sudo apt install apache2 -y
+sudo apt-get install apache2 -y
 sudo systemctl enable --now apache2
 
 ##########################################################################################
 #  install php
 ##########################################################################################
-sudo apt install php php-curl libapache2-mod-php php-cli php-mysql php-gd php-fpm -y
+sudo apt-get install php php-curl libapache2-mod-php php-cli php-mysql php-gd php-fpm -y
 
 ##########################################################################################
 #    Install adminer sql web browser client
 ##########################################################################################
-sudo apt install adminer -y
+sudo apt-get install adminer -y
 
 ##########################################################################################
 #  enable the apache configuration for adminder

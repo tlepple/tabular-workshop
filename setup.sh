@@ -37,7 +37,7 @@ sudo apt-get update
 ##########################################################################################
 #  load the Tabular enviroment properties from 'setup.properties' file
 ##########################################################################################
-. ~/tabular_workshop/setup.properties
+. ~/tabular-workshop/setup.properties
 
 ##########################################################################################
 #  create a few directories

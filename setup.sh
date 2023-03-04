@@ -285,12 +285,6 @@ sudo apt install -y mlocate
 cp ~/tabular-workshop/downloads/$POSTGRESQL_FILE /opt/spark/jars/
 
 ##########################################################################################
-# copy some aws jars:
-##########################################################################################
-cp ~/tabular-workshop/downloads/$AWS_BUNDLE_FILE /opt/spark/jars/
-cp ~/tabular-workshop/downloads/$URL_CONNECT_FILE /opt/spark/jars/
-
-##########################################################################################
 #  copy iceberg spark runtime items
 ##########################################################################################
 cp ~/tabular-workshop/downloads/$SPARK_ICEBERG_FILE /opt/spark/jars/
@@ -308,7 +302,6 @@ echo
 #  copy tablular items
 ##########################################################################################
 cp ~/tabular-workshop/downloads/$TABULAR_CLIENT_FILE /opt/spark/jars/
-
 echo
 echo "---------------------------------------------------------------------"
 echo "Tabular items completed..."
@@ -318,7 +311,6 @@ echo
 ##########################################################################################
 #  update tablular specific variables in
 ##########################################################################################
-
 #sed -e "s,<your s3 secret-key>,$secret_key,g" -i ~/appdist/debezium-server-iceberg/conf/application.properties
 
 echo
@@ -326,19 +318,7 @@ echo "---------------------------------------------------------------------"
 echo "Tabular environment variables updated..."
 echo "---------------------------------------------------------------------"
 echo
-##########################################################################################
-#  let's set up aws configure files from code (this is using the minio credentials) - The default region doesn't get used in minio
-##########################################################################################
-#aws configure set aws_access_key_id $access_key
-#aws configure set aws_secret_access_key $secret_key
-#aws configure set default.region us-east-1
 
-##########################################################################################
-#  let's test that the aws cli can list our buckets in minio:
-##########################################################################################
-#aws --endpoint-url http://127.0.0.1:9000 s3 ls
-
-echo
 ##########################################################################################
 #  Create a json records file of sample customer data to be used in a lab
 ##########################################################################################
@@ -424,7 +404,7 @@ echo "#  set path variables here:" >> ~/.profile
 echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> ~/.profile
 echo "export SPARK_HOME=/opt/spark" >> ~/.profile
 
-echo "export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin:$JAVA_HOME/bin:$HOME/minio-binaries" >> ~/.profile
+echo "export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin:$JAVA_HOME/bin" >> ~/.profile
 
 # let's make this visible
 . ~/.profile

@@ -35,9 +35,9 @@ sudo apt-get update
 . ~/file_variables.output
 
 ##########################################################################################
-#  load the Tabular enviroment properties from '.env.properties' file
+#  load the Tabular enviroment properties from 'setup.properties' file
 ##########################################################################################
-. ~/tabular_workshop/.env.properties
+. ~/tabular_workshop/setup.properties
 
 ##########################################################################################
 #  create a few directories

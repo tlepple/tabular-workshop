@@ -66,6 +66,7 @@ TABULAR_CREDENTIAL=<your credential>
 ---
 
 ### Start the build:
+*  reminder - passord for user `datagen` is `supersecret1`
 
 ```
 #  run it:

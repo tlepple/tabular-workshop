@@ -425,7 +425,7 @@ sudo apt-get install -y apt-transport-https ca-certificates curl software-proper
 sudo apt-key add ~/tabular-workshop/downloads/$DOCKER_REPO_KEY_FILE
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
 apt-cache policy docker-ce
-sudo apt install -y docker-ce
+sudo apt-get install -y docker-ce
 sudo chmod 666 /var/run/docker.sock
 sudo usermod -aG docker ${USER}
 

@@ -307,12 +307,23 @@ echo
 ##########################################################################################
 #  copy tablular items
 ##########################################################################################
-TABULAR_CLIENT_FILE
 cp ~/tabular-workshop/downloads/$TABULAR_CLIENT_FILE /opt/spark/jars/
 
 echo
 echo "---------------------------------------------------------------------"
-echo "tabular items completed..."
+echo "Tabular items completed..."
+echo "---------------------------------------------------------------------"
+echo
+
+##########################################################################################
+#  update tablular specific variables in
+##########################################################################################
+
+#sed -e "s,<your s3 secret-key>,$secret_key,g" -i ~/appdist/debezium-server-iceberg/conf/application.properties
+
+echo
+echo "---------------------------------------------------------------------"
+echo "Tabular environment variables updated..."
 echo "---------------------------------------------------------------------"
 echo
 ##########################################################################################
@@ -468,17 +479,6 @@ mkdir -p ~/debezium-server-iceberg/data
 # configure our dbz source-sink.properties file
 #########################################################################################
 cp ~/tabular-workshop/dbz_server/application.properties ~/appdist/debezium-server-iceberg/conf/
-
-##########################################################################################
-#  let's update the properties files to use our minio keys.
-##########################################################################################
-#. ~/minio-output.properties
-
-#sed -e "s,<your S3 access-key>,$access_key,g" -i ~/appdist/debezium-server-iceberg/conf/application.properties
-#sed -e "s,<your s3 secret-key>,$secret_key,g" -i ~/appdist/debezium-server-iceberg/conf/application.properties
-
-# change ownership
-#sudo chown datagen:datagen -R /home/datagen/appdist
 
 # remove the example file:
 rm /home/datagen/appdist/debezium-server-iceberg/conf/application.properties.example

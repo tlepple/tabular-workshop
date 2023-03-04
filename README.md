@@ -55,7 +55,7 @@ git clone https://github.com/tlepple/tabular-workshop.git
 vi ~/tabular-workshop/.env.properties
 ```
 
-##### File Contents:
+##### Sample File Contents:
 
 ```
 TABULAR_WAREHOUSE_NAME=<your warehouse>

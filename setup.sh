@@ -311,11 +311,15 @@ echo
 ##########################################################################################
 #  update tablular specific variables in
 ##########################################################################################
+# conf.properties
 sed -e "s,<your warehouse>,$TABULAR_WAREHOUSE_NAME,g" -i ~/tabular-workshop/spark_items/conf.properties
 sed -e "s,<your credential>,$TABULAR_CREDENTIAL,g" -i ~/tabular-workshop/spark_items/conf.properties
 
-sed -e "s,<your database>,$TABULAR_DB_NAME,g" -i ~/tabular-workshop/spark_items/conf.properties
+#  stream_customer_ddl.sql
+sed -e "s,<your warehouse>,$TABULAR_WAREHOUSE_NAME,g" -i ~/tabular-workshop/spark_items/conf.properties
+sed -e "s,<your database>,$TABULAR_DB_NAME,g" -i ~/tabular-workshop/spark_items/stream_customer_ddl.sql
 
+#  
 echo
 echo "---------------------------------------------------------------------"
 echo "Tabular environment variables updated..."

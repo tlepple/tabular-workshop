@@ -82,8 +82,8 @@ echo "installing postgresql..."
 echo "---------------------------------------------------------------------"
 echo
 
-apt policy postgresql
-
+#apt policy postgresql
+apt-get policy postgresql
 ##########################################################################################
 #  install the pgp key for this version of postgresql:
 ##########################################################################################

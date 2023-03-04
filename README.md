@@ -49,6 +49,19 @@ git clone https://github.com/tlepple/tabular-workshop.git
 
 ---
 
+###  Update the `.env.properties` file with your Tabular enviroment info:
+
+```
+vi ~/tabular-workshop/.env.properties
+```
+
+##### File Contents:
+
+```
+```
+
+---
+
 ### Start the build:
 
 ```

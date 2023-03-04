@@ -52,7 +52,7 @@ git clone https://github.com/tlepple/tabular-workshop.git
 ###  Update the `.env.properties` file with your Tabular environment info:
 
 ```
-vi ~/tabular-workshop/.env.properties
+vi ~/tabular-workshop/setup.properties
 ```
 
 ##### Sample File Contents:

@@ -311,7 +311,10 @@ echo
 ##########################################################################################
 #  update tablular specific variables in
 ##########################################################################################
-#sed -e "s,<your s3 secret-key>,$secret_key,g" -i ~/appdist/debezium-server-iceberg/conf/application.properties
+sed -e "s,<your warehouse>,$TABULAR_WAREHOUSE_NAME,g" -i ~/tabular-workshop/spark_items/conf.properties
+sed -e "s,<your credential>,$TABULAR_CREDENTIAL,g" -i ~/tabular-workshop/spark_items/conf.properties
+
+sed -e "s,<your database>,$TABULAR_DB_NAME,g" -i ~/tabular-workshop/spark_items/conf.properties
 
 echo
 echo "---------------------------------------------------------------------"

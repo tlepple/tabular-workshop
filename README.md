@@ -58,6 +58,9 @@ vi ~/tabular-workshop/.env.properties
 ##### File Contents:
 
 ```
+TABULAR_WAREHOUSE_NAME=<your warehouse>
+TABULAR_DB_NAME=<your database>
+TABULAR_CREDENTIAL=<your credential>
 ```
 
 ---

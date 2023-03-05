@@ -1,1 +1,1 @@
-CREATE DATABASE `teknologisolutions-warehouse`.`test`;
+CREATE DATABASE `<your warehouse>`.`<your database>`;

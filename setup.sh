@@ -482,6 +482,10 @@ mkdir ~/appdist/debezium-server-iceberg/data
 #########################################################################################
 cp $TABULAR_CLIENT_FILE ~/appdist/debezium-server-iceberg/lib/
 
+##########################################################################################
+#  update tablular specific variables in debezium server configs
+##########################################################################################
+
 echo
 echo "---------------------------------------------------------------------"
 echo "Debezium Server setup complete..."

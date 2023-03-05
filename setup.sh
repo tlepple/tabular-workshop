@@ -476,19 +476,17 @@ rm /home/datagen/debezium-server-iceberg-dist-*-SNAPSHOT.zip
 
 # we need a directory to store offset info:
 mkdir ~/appdist/debezium-server-iceberg/data
+
+#########################################################################################
+# Tabular Client jars for 'Debezium Server'
+#########################################################################################
+cp $TABULAR_CLIENT_FILE ~/appdist/debezium-server-iceberg/lib/
+
 echo
 echo "---------------------------------------------------------------------"
 echo "Debezium Server setup complete..."
 echo "---------------------------------------------------------------------"
 echo
-
-
-
-#########################################################################################
-# Tabular Client jars for 'Debezium Server'
-#########################################################################################
-
-cp 
 
 #########################################################################################
 # let's start our spark master and workers.

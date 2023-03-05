@@ -1,1 +1,1 @@
-CREATE DATABASE `<your warehouse>`.`<your database>`;
+CREATE DATABASE IF NOT EXISTS `<your warehouse>`.`<your database>`;

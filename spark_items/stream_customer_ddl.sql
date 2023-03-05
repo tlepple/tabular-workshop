@@ -1,4 +1,4 @@
-CREATE TABLE <your warehouse>.<your database>.stream_customer (
+CREATE TABLE `<your warehouse>`.`<your database>`.stream_customer (
     first_name STRING,
     last_name STRING,
     street_address STRING,

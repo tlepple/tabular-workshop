@@ -485,6 +485,9 @@ cp $TABULAR_CLIENT_FILE ~/appdist/debezium-server-iceberg/lib/
 ##########################################################################################
 #  update tablular specific variables in debezium server configs
 ##########################################################################################
+#sed -e "s,<your warehouse>,$TABULAR_WAREHOUSE_NAME,g" -i ~/tabular-workshop/spark_items/stream_customer_ddl.sql
+#sed -e "s,<your database>,$TABULAR_DB_NAME,g" -i ~/tabular-workshop/spark_items/stream_customer_ddl.sql
+
 
 echo
 echo "---------------------------------------------------------------------"

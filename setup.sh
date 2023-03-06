@@ -178,7 +178,7 @@ chown datagen:datagen -R /home/datagen/
 ##########################################################################################
 #  pip install some items
 ##########################################################################################
-sudo pip install kafka-python uuid simplejson faker psycopg2-binary pyiceberg
+sudo pip install kafka-python uuid simplejson faker psycopg2-binary pyiceberg pyarrow
 echo
 echo "---------------------------------------------------------------------"
 echo "data generator setup completed..."

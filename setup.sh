@@ -494,6 +494,9 @@ cp ~/datagaen/.pyiceberg.yaml ~/
 sed -e "s,<your warehouse>,$TABULAR_WAREHOUSE_NAME,g" -i ~/.pyiceberg.yaml
 sed -e "s,<your credential>,$TABULAR_CREDENTIAL,g" -i ~/.pyiceberg.yaml
 
+# Tabular Python Library
+pip3 install tabulario
+
 echo
 echo "---------------------------------------------------------------------"
 echo "Debezium Server setup complete..."

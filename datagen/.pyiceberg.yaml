@@ -1,4 +1,5 @@
 catalog:
-  <your warehouse>:
+  default:
     uri: https://api.tabular.io/ws
+    warehouse: <your warehouse>
     credential: <your credential>   

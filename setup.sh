@@ -489,6 +489,8 @@ sed -e "s,<your warehouse>,$TABULAR_WAREHOUSE_NAME,g" -i ~/appdist/debezium-serv
 sed -e "s,<your database>,$TABULAR_DB_NAME,g" -i ~/appdist/debezium-server-iceberg/conf/application.properties
 sed -e "s,<your credential>,$TABULAR_CREDENTIAL,g" ~/appdist/debezium-server-iceberg/conf/application.properties
 
+# setup pyiceberg
+cp ~/datagaen
 echo
 echo "---------------------------------------------------------------------"
 echo "Debezium Server setup complete..."

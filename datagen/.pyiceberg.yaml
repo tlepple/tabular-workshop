@@ -1,0 +1,4 @@
+catalog:
+  <your warehouse>:
+    uri: https://api.tabular.io/ws
+    credential: <your credential>   

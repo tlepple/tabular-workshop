@@ -273,7 +273,12 @@ mkdir -p /opt/spark/sql
 ##########################################################################################
 #  install aws cli
 ##########################################################################################
-sudo apt-get install awscli -y
+#sudo apt-get install awscli -y
+
+curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install -i /usr/local/aws -b /usr/local/bin 
+rm -rf aws*
 
 ##########################################################################################
 #  install mlocate

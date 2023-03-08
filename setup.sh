@@ -543,6 +543,13 @@ cp ~/tabular-workshop/spark_items/* /opt/spark/sql
 #########################################################################################
 #  Install jupyter hub and nginx
 #########################################################################################
+
+echo
+echo "---------------------------------------------------------------------"
+echo "Starting Jupyterhub setup..."
+echo "---------------------------------------------------------------------"
+echo
+
 sudo apt-get install python3.8-venv -y
 sudo python3 -m venv /opt/jupyterhub/
 sudo /opt/jupyterhub/bin/python3 -m pip install wheel
@@ -607,12 +614,6 @@ sudo cp ./nginx_stuff/default.conf.template /etc/nginx/sites-available/default
 # restart nginx
 sudo systemctl restart nginx.service
 sudo systemctl enable nginx.service
-
-echo
-echo "---------------------------------------------------------------------"
-echo "Starting Jupyterhub setup..."
-echo "---------------------------------------------------------------------"
-echo
 
 echo
 echo "---------------------------------------------------------------------"

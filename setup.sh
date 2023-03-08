@@ -602,8 +602,11 @@ sudo apt install nginx -y
 sudo sed -e "s,# c.JupyterHub.bind_url = 'http://:8000',c.JupyterHub.bind_url = 'http://127.0.0.1:8000/jupyter',g" -i /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
 
 # copy the config template to the nginx service
-sudo cp ./nginx_stuff
+sudo cp ./nginx_stuff/default.conf.template /etc/nginx/sites-available/default
 
+# restart nginx
+sudo systemctl restart nginx.service
+sudo systemctl enable nginx.service
 
 
 

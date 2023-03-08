@@ -485,7 +485,7 @@ mkdir ~/appdist/debezium-server-iceberg/data
 #########################################################################################
 # Tabular Client jars for 'Debezium Server'
 #########################################################################################
-cp $TABULAR_CLIENT_FILE ~/appdist/debezium-server-iceberg/lib/
+cp ~/tabular-workshop/downloads/$TABULAR_CLIENT_FILE ~/appdist/debezium-server-iceberg/lib/
 
 ##########################################################################################
 #  update tablular specific variables in debezium server configs

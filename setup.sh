@@ -608,16 +608,6 @@ sudo cp ./nginx_stuff/default.conf.template /etc/nginx/sites-available/default
 sudo systemctl restart nginx.service
 sudo systemctl enable nginx.service
 
-
-
-
-
-
-
-
-
-
-
 echo
 echo "---------------------------------------------------------------------"
 echo "Starting Jupyterhub setup..."

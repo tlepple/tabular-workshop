@@ -495,7 +495,7 @@ sed -e "s,<your database>,$TABULAR_DB_NAME,g" -i ~/appdist/debezium-server-icebe
 sed -e "s,<your credential>,$TABULAR_CREDENTIAL,g" -i ~/appdist/debezium-server-iceberg/conf/application.properties
 
 # setup pyiceberg
-cp ~/datagaen/.pyiceberg.yaml ~/
+cp ~/datagen/.pyiceberg.yaml ~/
 sed -e "s,<your warehouse>,$TABULAR_WAREHOUSE_NAME,g" -i ~/.pyiceberg.yaml
 sed -e "s,<your credential>,$TABULAR_CREDENTIAL,g" -i ~/.pyiceberg.yaml
 

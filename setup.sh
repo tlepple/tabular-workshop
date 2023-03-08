@@ -542,33 +542,33 @@ cp ~/tabular-workshop/spark_items/* /opt/spark/sql
 #########################################################################################
 #  Install apache web server to host adminer
 #########################################################################################
-sudo apt-get install apache2 -y
-sudo systemctl enable --now apache2
+#sudo apt-get install apache2 -y
+#sudo systemctl enable --now apache2
 
 ##########################################################################################
 #  install php
 ##########################################################################################
-sudo apt-get install php php-curl libapache2-mod-php php-cli php-mysql php-gd php-fpm -y
+#sudo apt-get install php php-curl libapache2-mod-php php-cli php-mysql php-gd php-fpm -y
 
 ##########################################################################################
 #    Install adminer sql web browser client
 ##########################################################################################
-sudo apt-get install adminer -y
+#sudo apt-get install adminer -y
 
 ##########################################################################################
 #  enable the apache configuration for adminder
 ##########################################################################################
-sudo a2enconf adminer
+#sudo a2enconf adminer
 
 ##########################################################################################
 #  reload Apache
 ##########################################################################################
-sudo systemctl reload apache2
+#sudo systemctl reload apache2
 
 ##########################################################################################
 #  Now restart apache
 ##########################################################################################
-sudo systemctl restart apache2
+#sudo systemctl restart apache2
 #########################################################################################
 #  setup complete.
 #########################################################################################

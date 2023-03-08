@@ -613,6 +613,9 @@ sudo sed -e "s,# c.JupyterHub.bind_url = 'http://:8000',c.JupyterHub.bind_url = 
 # copy the config template to the nginx service
 sudo cp ./nginx_stuff/default.conf.template /etc/nginx/sites-available/default
 
+# set jupyter security module:
+sudo sed -e "s,# c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator',c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator',g" -i /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
+
 # restart nginx
 sudo systemctl restart nginx.service
 sudo systemctl enable nginx.service

@@ -606,7 +606,7 @@ sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix=/opt/jupyte
 sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix /usr/local/ --name 'python' --display-name "Python (default)"
 
 # setup nginx (reverse proxy)
-sudo apt install nginx -y
+sudo apt-get install nginx -y
 #  update jupyter for nginx
 sudo sed -e "s,# c.JupyterHub.bind_url = 'http://:8000',c.JupyterHub.bind_url = 'http://127.0.0.1:8000/jupyter',g" -i /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
 

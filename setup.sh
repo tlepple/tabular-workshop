@@ -615,6 +615,7 @@ sudo cp /home/datagen/tabular-workshop/nginx_stuff/default.conf.template /etc/ng
 #  not sure why it needs this but it wouldn't run without
 # pip install jupyterhub-dummyauthenticator
 sudo python3 -m pip install jupyterhub-dummyauthenticator
+sudo /opt/jupyterhub/bin/python3 -m pip install findspark
 #  configure the pam module
 sudo sed -e "s,# c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator',c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator',g" -i /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
 

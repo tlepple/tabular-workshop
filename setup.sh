@@ -521,7 +521,10 @@ echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> ~/.profile
 
 echo "export SPARK_HOME=/opt/spark" >> ~/.profile
 
-echo "export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin:$JAVA_HOME/bin" >> ~/.profile
+echo "export CONDA_HOME=/opt/conda" >> ~/.profile
+
+#echo "export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin:$JAVA_HOME/bin" >> ~/.profile
+echo "export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin:$JAVA_HOME/bin:$CONDA_HOME/bin" >> ~/.profile
 
 # let's make this visible
 . ~/.profile

@@ -605,6 +605,11 @@ sudo apt-get install conda -y
 sudo ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 sudo mkdir -p /opt/conda/envs/
 
+#  update ipkernel
+#sudo /opt/conda/bin/conda create --prefix /opt/conda/envs/python python=3.8 ipykernel -y
+#sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix=/opt/jupyterhub/ --name 'python' --display-name "Python (default)"
+#sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix /usr/local/ --name 'python' --display-name "Python (default)"
+
 # setup nginx (reverse proxy)
 sudo apt-get install nginx -y
 #  update jupyter for nginx
@@ -626,11 +631,6 @@ sudo sed -e "s,# c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenti
 # restart nginx
 sudo systemctl restart nginx.service
 sudo systemctl enable nginx.service
-
-#  update ipkernel
-#sudo /opt/conda/bin/conda create --prefix /opt/conda/envs/python python=3.8 ipykernel -y
-#sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix=/opt/jupyterhub/ --name 'python' --display-name "Python (default)"
-#sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix /usr/local/ --name 'python' --display-name "Python (default)"
 
 sleep 5
 

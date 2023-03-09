@@ -61,10 +61,111 @@ export PATH="~/.local/bin:$PATH"
 echo "" >> ~/.profile
 echo "#  set path variables here:" >> ~/.profile
 
+#########################################################################################
+#  Install jupyter hub and nginx
+#########################################################################################
+
+echo
+echo "---------------------------------------------------------------------"
+echo "Starting Jupyterhub setup..."
+echo "---------------------------------------------------------------------"
+echo
+
+cd ~/tabular-workshop
+
+sudo apt-get install python3.8-venv -y
+sudo python3 -m venv /opt/jupyterhub/
+sudo /opt/jupyterhub/bin/python3 -m pip install wheel
+sudo /opt/jupyterhub/bin/python3 -m pip install jupyterhub jupyterlab
+sudo /opt/jupyterhub/bin/python3 -m pip install ipywidgets
+sudo apt-get install nodejs npm -y
+sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+sudo apt-get update -y
+. ~/.bashrc
+#  let's upgrade:
+nvm install 12.18
+sudo npm install -g configurable-http-proxy
+sudo mkdir -p /opt/jupyterhub/etc/jupyterhub/
+sudo /opt/jupyterhub/bin/jupyterhub --generate-config 
+sudo mv /home/datagen/tabular-workshop/jupyterhub_config.py /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
+
+# update the configs:
+sudo sed -e "s,# c.Spawner.default_url = '',c.Spawner.default_url = '/lab',g" -i /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
+
+sudo mkdir -p /opt/jupyterhub/etc/systemd
+
+cat <<EOF > jupyterhub.service
+[Unit]
+Description=JupyterHub
+After=syslog.target network.target
+
+[Service]
+User=root
+Environment="PATH=/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/jupyterhub/bin"
+ExecStart=/opt/jupyterhub/bin/jupyterhub -f /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo cp ./jupyterhub.service /opt/jupyterhub/etc/systemd/jupyterhub.service
+sudo ln -s /opt/jupyterhub/etc/systemd/jupyterhub.service /etc/systemd/system/jupyterhub.service
+sudo systemctl daemon-reload
+sudo systemctl enable jupyterhub.service
+sudo systemctl start jupyterhub.service
+
+#  install conda
+sudo curl https://repo.anaconda.com/pkgs/misc/gpgkeys/anaconda.asc | gpg --dearmor > conda.gpg
+sudo install -o root -g root -m 644 conda.gpg /etc/apt/trusted.gpg.d/
+sudo echo "deb [arch=amd64] https://repo.anaconda.com/pkgs/misc/debrepo/conda stable main" | sudo tee /etc/apt/sources.list.d/conda.list
+sudo apt-get update -y
+sudo apt-get install conda -y
+sudo ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
+sudo mkdir -p /opt/conda/envs/
+
+#  update ipkernel
+sudo /opt/conda/bin/conda create --prefix /opt/conda/envs/python python=3.8 ipykernel -y
+sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix=/opt/jupyterhub/ --name 'python' --display-name "Python (default)"
+sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix /usr/local/ --name 'python' --display-name "Python (default)"
+
+# setup nginx (reverse proxy)
+sudo apt-get install nginx -y
+#  update jupyter for nginx
+sudo sed -e "s,# c.JupyterHub.bind_url = 'http://:8000',c.JupyterHub.bind_url = 'http://127.0.0.1:8000/jupyter',g" -i /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
+
+# copy the config template to the nginx service
+sudo cp /home/datagen/tabular-workshop/nginx_stuff/default.conf.template /etc/nginx/sites-available/default
+
+#  set jupyter security module:
+#  not sure why it needs this but it wouldn't run without
+#  pip install jupyterhub-dummyauthenticator
+
+#sudo python3 -m pip install jupyterhub-dummyauthenticator
+#sudo /opt/jupyterhub/bin/python3 -m pip install findspark
+
+#  configure the pam module
+#sudo sed -e "s,# c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator',c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator',g" -i /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
+
+# restart nginx
+sudo systemctl restart nginx.service
+sudo systemctl enable nginx.service
+
+sleep 5
+
+# restart these services again 
+sudo systemctl restart jupyterhub.service
+#sudo systemctl restart nginx.service
+
+echo
+echo "---------------------------------------------------------------------"
+echo "Jupyterhub setup complete..."
+echo "---------------------------------------------------------------------"
+echo
+
 ##########################################################################################
 #  install pip for python3
 ##########################################################################################
-sudo apt-get install python3-pip -y
+#sudo apt-get install python3-pip -y
 
 ##########################################################################################
 #  install jq
@@ -542,107 +643,6 @@ echo
 #########################################################################################
 cp ~/tabular-workshop/spark_items/* /opt/spark/sql
 
-
-#########################################################################################
-#  Install jupyter hub and nginx
-#########################################################################################
-
-echo
-echo "---------------------------------------------------------------------"
-echo "Starting Jupyterhub setup..."
-echo "---------------------------------------------------------------------"
-echo
-
-cd ~/tabular-workshop
-
-sudo apt-get install python3.8-venv -y
-sudo python3 -m venv /opt/jupyterhub/
-sudo /opt/jupyterhub/bin/python3 -m pip install wheel
-sudo /opt/jupyterhub/bin/python3 -m pip install jupyterhub jupyterlab
-sudo /opt/jupyterhub/bin/python3 -m pip install ipywidgets
-sudo apt-get install nodejs npm -y
-sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-sudo apt-get update -y
-. ~/.bashrc
-#  let's upgrade:
-nvm install 12.18
-sudo npm install -g configurable-http-proxy
-sudo mkdir -p /opt/jupyterhub/etc/jupyterhub/
-sudo /opt/jupyterhub/bin/jupyterhub --generate-config 
-sudo mv /home/datagen/tabular-workshop/jupyterhub_config.py /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
-
-# update the configs:
-sudo sed -e "s,# c.Spawner.default_url = '',c.Spawner.default_url = '/lab',g" -i /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
-
-sudo mkdir -p /opt/jupyterhub/etc/systemd
-
-cat <<EOF > jupyterhub.service
-[Unit]
-Description=JupyterHub
-After=syslog.target network.target
-
-[Service]
-User=root
-Environment="PATH=/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/jupyterhub/bin"
-ExecStart=/opt/jupyterhub/bin/jupyterhub -f /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-sudo cp ./jupyterhub.service /opt/jupyterhub/etc/systemd/jupyterhub.service
-sudo ln -s /opt/jupyterhub/etc/systemd/jupyterhub.service /etc/systemd/system/jupyterhub.service
-sudo systemctl daemon-reload
-sudo systemctl enable jupyterhub.service
-sudo systemctl start jupyterhub.service
-
-#  install conda
-sudo curl https://repo.anaconda.com/pkgs/misc/gpgkeys/anaconda.asc | gpg --dearmor > conda.gpg
-sudo install -o root -g root -m 644 conda.gpg /etc/apt/trusted.gpg.d/
-sudo echo "deb [arch=amd64] https://repo.anaconda.com/pkgs/misc/debrepo/conda stable main" | sudo tee /etc/apt/sources.list.d/conda.list
-sudo apt-get update -y
-sudo apt-get install conda -y
-sudo ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
-sudo mkdir -p /opt/conda/envs/
-
-#  update ipkernel
-sudo /opt/conda/bin/conda create --prefix /opt/conda/envs/python python=3.8 ipykernel -y
-sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix=/opt/jupyterhub/ --name 'python' --display-name "Python (default)"
-sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix /usr/local/ --name 'python' --display-name "Python (default)"
-
-# setup nginx (reverse proxy)
-sudo apt-get install nginx -y
-#  update jupyter for nginx
-sudo sed -e "s,# c.JupyterHub.bind_url = 'http://:8000',c.JupyterHub.bind_url = 'http://127.0.0.1:8000/jupyter',g" -i /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
-
-# copy the config template to the nginx service
-sudo cp /home/datagen/tabular-workshop/nginx_stuff/default.conf.template /etc/nginx/sites-available/default
-
-#  set jupyter security module:
-#  not sure why it needs this but it wouldn't run without
-#  pip install jupyterhub-dummyauthenticator
-
-#sudo python3 -m pip install jupyterhub-dummyauthenticator
-#sudo /opt/jupyterhub/bin/python3 -m pip install findspark
-
-#  configure the pam module
-#sudo sed -e "s,# c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator',c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator',g" -i /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
-
-# restart nginx
-sudo systemctl restart nginx.service
-sudo systemctl enable nginx.service
-
-sleep 5
-
-# restart these services again 
-sudo systemctl restart jupyterhub.service
-#sudo systemctl restart nginx.service
-
-echo
-echo "---------------------------------------------------------------------"
-echo "Jupyterhub setup complete..."
-echo "---------------------------------------------------------------------"
-echo
 #########################################################################################
 #  Install apache web server to host adminer
 #########################################################################################

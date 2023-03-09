@@ -71,7 +71,7 @@ echo "Starting Jupyterhub setup..."
 echo "---------------------------------------------------------------------"
 echo
 
-cd ~/tabular-workshop
+#cd ~/tabular-workshop
 
 sudo apt-get install python3.8-venv -y
 sudo python3 -m venv /opt/jupyterhub/

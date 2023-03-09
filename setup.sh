@@ -123,7 +123,7 @@ sudo apt-get install conda -y
 sudo ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 sudo mkdir -p /opt/conda/envs/
 
-#  update ipkernel
+#  create a conda virtual environment for its version of python and set in ipkernel
 sudo /opt/conda/bin/conda create --prefix /opt/conda/envs/python python=3.8 ipykernel -y
 sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix=/opt/jupyterhub/ --name 'python' --display-name "Python (default)"
 sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix /usr/local/ --name 'python' --display-name "Python (default)"

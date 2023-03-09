@@ -626,7 +626,7 @@ sudo cp /home/datagen/tabular-workshop/nginx_stuff/default.conf.template /etc/ng
 #sudo /opt/jupyterhub/bin/python3 -m pip install findspark
 
 #  configure the pam module
-sudo sed -e "s,# c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator',c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator',g" -i /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
+#sudo sed -e "s,# c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator',c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator',g" -i /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
 
 # restart nginx
 sudo systemctl restart nginx.service
@@ -634,9 +634,9 @@ sudo systemctl enable nginx.service
 
 sleep 5
 
-# restart these services again to pickup ipkernel changes.
+# restart these services again 
 sudo systemctl restart jupyterhub.service
-sudo systemctl restart nginx.service
+#sudo systemctl restart nginx.service
 
 echo
 echo "---------------------------------------------------------------------"

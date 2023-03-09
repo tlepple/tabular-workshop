@@ -545,9 +545,9 @@ sudo /usr/bin/python3 -m pip install kafka-python uuid simplejson faker psycopg2
 sudo /opt/jupyterhub/bin/python3 -m pip install kafka-python uuid simplejson faker psycopg2-binary pyiceberg pyarrow boto3
 
 # utility findspark
-sudo /usr/bin/python3 -m pip install findspark
-sudo /opt/jupyterhub/bin/python3 -m pip install findspark
-sudo /opt/conda/envs/python/bin/python3 -m pip install findspark
+#sudo /usr/bin/python3 -m pip install findspark
+#sudo /opt/jupyterhub/bin/python3 -m pip install findspark
+#sudo /opt/conda/envs/python/bin/python3 -m pip install findspark
 ##########################################################################################
 # Tabular Python Library
 ##########################################################################################

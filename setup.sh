@@ -544,6 +544,13 @@ sudo /usr/bin/python3 -m pip install kafka-python uuid simplejson faker psycopg2
 # this installs into jupyter python3 
 sudo /opt/jupyterhub/bin/python3 -m pip install kafka-python uuid simplejson faker psycopg2-binary pyiceberg pyarrow boto3
 
+##########################################################################################
+# Tabular Python Library
+##########################################################################################
+pip3 install tabulario
+sudo /opt/jupyterhub/bin/python3 -m pip install tabulario 
+sudo /opt/conda/envs/python/bin/python3 -m pip tabulario
+
 #########################################################################################
 # install docker ce (needed for dbz server build with maven)
 #########################################################################################
@@ -621,9 +628,6 @@ mv ~/datagen/template.pyiceberg.yaml ~/.pyiceberg.yaml
 sed -e "s,<your warehouse>,$TABULAR_WAREHOUSE_NAME,g" -i ~/.pyiceberg.yaml
 sed -e "s,<your credential>,$TABULAR_CREDENTIAL,g" -i ~/.pyiceberg.yaml
 
-# Tabular Python Library
-#pip3 install tabulario
-sudo /opt/jupyterhub/bin/python3 -m pip install tabulario 
 
 echo
 echo "---------------------------------------------------------------------"

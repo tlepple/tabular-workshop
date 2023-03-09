@@ -87,7 +87,7 @@ nvm install 12.18
 sudo npm install -g configurable-http-proxy
 sudo mkdir -p /opt/jupyterhub/etc/jupyterhub/
 sudo /opt/jupyterhub/bin/jupyterhub --generate-config 
-sudo mv /home/datagen/tabular-workshop/jupyterhub_config.py /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
+sudo mv /home/datagen/jupyterhub_config.py /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
 
 # update the configs:
 sudo sed -e "s,# c.Spawner.default_url = '',c.Spawner.default_url = '/lab',g" -i /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py

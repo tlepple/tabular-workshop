@@ -53,9 +53,8 @@ export PATH="~/.local/bin:$PATH"
 ##########################################################################################
 # add to path perm  https://help.ubuntu.com/community/EnvironmentVariables
 ##########################################################################################
-#echo "" >> ~/.profile
-#echo "#  set path variables here:" >> ~/.profile
-echo "#  set path variables here:" >> /etc/environment
+echo "" >> ~/.profile
+echo "#  set path variables here:" >> ~/.profile
 
 ##########################################################################################
 #  install pip for python3
@@ -413,24 +412,18 @@ EOF
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 export SPARK_HOME=/opt/spark
 
-#echo "" >> ~/.profile
-echo "" >> /etc/environment
+echo "" >> ~/.profile
 
-#echo "#  set path variables here:" >> ~/.profile
-echo "#  set path variables here:" >> /etc/environment
+echo "#  set path variables here:" >> ~/.profile
 
-#echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> ~/.profile
-echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> /etc/environment
+echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> ~/.profile
 
-#echo "export SPARK_HOME=/opt/spark" >> ~/.profile
-echo "export SPARK_HOME=/opt/spark" >> /etc/environment
+echo "export SPARK_HOME=/opt/spark" >> ~/.profile
 
-#echo "export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin:$JAVA_HOME/bin" >> ~/.profile
-echo "export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin:$JAVA_HOME/bin" >> /etc/environment
+echo "export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin:$JAVA_HOME/bin" >> ~/.profile
 
 # let's make this visible
-#. ~/.profile
-. /etc/environment
+. ~/.profile
 
 #########################################################################################
 # install docker ce (needed for dbz server build with maven)
@@ -612,7 +605,6 @@ sudo apt-get install conda -y
 sudo ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 sudo mkdir -p /opt/conda/envs/
 
-
 # setup nginx (reverse proxy)
 sudo apt-get install nginx -y
 #  update jupyter for nginx
@@ -621,11 +613,13 @@ sudo sed -e "s,# c.JupyterHub.bind_url = 'http://:8000',c.JupyterHub.bind_url = 
 # copy the config template to the nginx service
 sudo cp /home/datagen/tabular-workshop/nginx_stuff/default.conf.template /etc/nginx/sites-available/default
 
-# set jupyter security module:
+#  set jupyter security module:
 #  not sure why it needs this but it wouldn't run without
-# pip install jupyterhub-dummyauthenticator
+#  pip install jupyterhub-dummyauthenticator
+
 sudo python3 -m pip install jupyterhub-dummyauthenticator
 sudo /opt/jupyterhub/bin/python3 -m pip install findspark
+
 #  configure the pam module
 sudo sed -e "s,# c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator',c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator',g" -i /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py
 
@@ -634,9 +628,9 @@ sudo systemctl restart nginx.service
 sudo systemctl enable nginx.service
 
 #  update ipkernel
-sudo /opt/conda/bin/conda create --prefix /opt/conda/envs/python python=3.8 ipykernel -y
-sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix=/opt/jupyterhub/ --name 'python' --display-name "Python (default)"
-sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix /usr/local/ --name 'python' --display-name "Python (default)"
+#sudo /opt/conda/bin/conda create --prefix /opt/conda/envs/python python=3.8 ipykernel -y
+#sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix=/opt/jupyterhub/ --name 'python' --display-name "Python (default)"
+#sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix /usr/local/ --name 'python' --display-name "Python (default)"
 
 sleep 5
 
@@ -692,8 +686,8 @@ sleep 5
 #########################################################################################
 # source this to set our new variables in current session
 #########################################################################################
-#. ~/.profile
-. /etc/environment
+. ~/.profile
+
 
 OVERALL_END="$(date +%s)"
 echo

@@ -606,9 +606,9 @@ sudo ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 sudo mkdir -p /opt/conda/envs/
 
 #  update ipkernel
-#sudo /opt/conda/bin/conda create --prefix /opt/conda/envs/python python=3.8 ipykernel -y
-#sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix=/opt/jupyterhub/ --name 'python' --display-name "Python (default)"
-#sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix /usr/local/ --name 'python' --display-name "Python (default)"
+sudo /opt/conda/bin/conda create --prefix /opt/conda/envs/python python=3.8 ipykernel -y
+sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix=/opt/jupyterhub/ --name 'python' --display-name "Python (default)"
+sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix /usr/local/ --name 'python' --display-name "Python (default)"
 
 # setup nginx (reverse proxy)
 sudo apt-get install nginx -y
@@ -622,8 +622,8 @@ sudo cp /home/datagen/tabular-workshop/nginx_stuff/default.conf.template /etc/ng
 #  not sure why it needs this but it wouldn't run without
 #  pip install jupyterhub-dummyauthenticator
 
-sudo python3 -m pip install jupyterhub-dummyauthenticator
-sudo /opt/jupyterhub/bin/python3 -m pip install findspark
+#sudo python3 -m pip install jupyterhub-dummyauthenticator
+#sudo /opt/jupyterhub/bin/python3 -m pip install findspark
 
 #  configure the pam module
 sudo sed -e "s,# c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator',c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator',g" -i /opt/jupyterhub/etc/jupyterhub/jupyterhub_config.py

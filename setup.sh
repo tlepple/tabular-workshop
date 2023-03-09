@@ -610,7 +610,7 @@ sed -e "s,<your credential>,$TABULAR_CREDENTIAL,g" -i ~/.pyiceberg.yaml
 
 # Tabular Python Library
 #pip3 install tabulario
-sudo /opt/jupyterhub/bin/python3 -m pip tabulario 
+sudo /opt/jupyterhub/bin/python3 -m pip install tabulario 
 
 echo
 echo "---------------------------------------------------------------------"

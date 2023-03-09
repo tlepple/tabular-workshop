@@ -563,7 +563,7 @@ sudo /opt/jupyterhub/bin/python3 -m pip install ipywidgets
 sudo apt-get install nodejs npm -y
 sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 sudo apt-get update -y
-#. ~/.bashrc
+. ~/.bashrc
 #  let's upgrade:
 nvm install 12.18
 sudo npm install -g configurable-http-proxy

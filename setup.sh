@@ -542,6 +542,7 @@ sudo /opt/conda/envs/python/bin/python3 -m pip install kafka-python uuid simplej
 # this installs into os python3
 sudo /usr/bin/python3 -m pip install kafka-python uuid simplejson faker psycopg2-binary pyiceberg pyarrow boto3
 # this installs into jupyter python3 
+sudo /opt/jupyterhub/bin/python3 -m pip install kafka-python uuid simplejson faker psycopg2-binary pyiceberg pyarrow boto3
 
 #########################################################################################
 # install docker ce (needed for dbz server build with maven)

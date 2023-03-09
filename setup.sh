@@ -280,7 +280,7 @@ chown datagen:datagen -R /home/datagen/
 #  pip install some items
 ##########################################################################################
 #sudo pip install kafka-python uuid simplejson faker psycopg2-binary pyiceberg pyarrow boto3
-sudo /opt/jupyterhub/bin/python3 -m pip install kafka-python uuid simplejson faker psycopg2-binary pyiceberg pyarrow boto3
+#sudo /opt/jupyterhub/bin/python3 -m pip install kafka-python uuid simplejson faker psycopg2-binary pyiceberg pyarrow boto3
 echo
 echo "---------------------------------------------------------------------"
 echo "data generator setup completed..."
@@ -530,6 +530,18 @@ echo "export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin:$JAVA_HOME/bin:$CONDA_H
 
 # let's make this visible
 . ~/.profile
+
+
+##########################################################################################
+#  pip install some items (this section is a hack, it isn't a best practice ;) 
+##########################################################################################
+#sudo pip install kafka-python uuid simplejson faker psycopg2-binary pyiceberg pyarrow boto3
+#sudo /opt/jupyterhub/bin/python3 -m pip install kafka-python uuid simplejson faker psycopg2-binary pyiceberg pyarrow boto3
+#  this will install into the conda env
+sudo /opt/conda/envs/python/bin/python3 -m pip install kafka-python uuid simplejson faker psycopg2-binary pyiceberg pyarrow boto3
+# this installs into os python3
+sudo /usr/bin/python3 -m pip install kafka-python uuid simplejson faker psycopg2-binary pyiceberg pyarrow boto3
+# this installs into jupyter python3 
 
 #########################################################################################
 # install docker ce (needed for dbz server build with maven)

@@ -53,8 +53,9 @@ export PATH="~/.local/bin:$PATH"
 ##########################################################################################
 # add to path perm  https://help.ubuntu.com/community/EnvironmentVariables
 ##########################################################################################
-echo "" >> ~/.profile
-echo "#  set path variables here:" >> ~/.profile
+#echo "" >> ~/.profile
+#echo "#  set path variables here:" >> ~/.profile
+echo "#  set path variables here:" >> /etc/environment
 
 ##########################################################################################
 #  install pip for python3
@@ -412,15 +413,24 @@ EOF
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 export SPARK_HOME=/opt/spark
 
-echo "" >> ~/.profile
-echo "#  set path variables here:" >> ~/.profile
-echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> ~/.profile
-echo "export SPARK_HOME=/opt/spark" >> ~/.profile
+#echo "" >> ~/.profile
+echo "" >> /etc/environment
 
-echo "export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin:$JAVA_HOME/bin" >> ~/.profile
+#echo "#  set path variables here:" >> ~/.profile
+echo "#  set path variables here:" >> /etc/environment
+
+#echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> ~/.profile
+echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> /etc/environment
+
+#echo "export SPARK_HOME=/opt/spark" >> ~/.profile
+echo "export SPARK_HOME=/opt/spark" >> /etc/environment
+
+#echo "export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin:$JAVA_HOME/bin" >> ~/.profile
+echo "export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin:$JAVA_HOME/bin" >> /etc/environment
 
 # let's make this visible
-. ~/.profile
+#. ~/.profile
+. /etc/environment
 
 #########################################################################################
 # install docker ce (needed for dbz server build with maven)
@@ -682,7 +692,8 @@ sleep 5
 #########################################################################################
 # source this to set our new variables in current session
 #########################################################################################
-. ~/.profile
+#. ~/.profile
+. /etc/environment
 
 OVERALL_END="$(date +%s)"
 echo
